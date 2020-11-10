@@ -1,0 +1,54 @@
+{
+  "name": "coding-test-turbulent",
+  "description": "A small application allowing to reorder some text",
+  "version": "0.1.0",
+  "author": "Cécile Journeaux",
+  "license": "MIT",
+  "homepage": "https://github.com/CJourneaux/coding-test-turbulent#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CJourneaux/coding-test-turbulent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CJourneaux/coding-test-turbulent/issues"
+  },
+  "keywords": [
+    "react"
+  ],
+  "private": true,
+  "dependencies": {
+    "@chakra-ui/core": "0.8.0",
+    "@emotion/core": "10.1.1",
+    "@emotion/styled": "10.0.27",
+    "emotion-theming": "10.0.27",
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^11.1.1",
+    "@testing-library/user-event": "^12.2.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.0",
+    "web-vitals": "^0.2.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "test": "react-scripts test"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
