@@ -12,22 +12,23 @@ describe("splitTextIntoLines", () => {
     ]);
   });
   describe("when given a maximum line length and a text exceeding this line length", () => {
-    test.todo(
-      "splits the original text into multiple lines "
-      // () => {
-      //   expect(splitTextIntoLines("0 1 2 3 4 5 6 7 8", 6)).toStrictEqual([
-      //     "0 1 2 ",
-      //     "3 4 5 ",
-      //     "6 7 8 ",
-      //   ]);
-      // }
-    );
-    test.todo(
-      "does not cut a word in the middle should it take the current line over the maximum allowed length"
-      //   () => {
-      //     expect(splitTextIntoLines("0 123", 4)).toStrictEqual(["0 ", "123"]);
-      //   }
-    );
+    test("splits the original text into multiple lines ", () => {
+      expect(splitTextIntoLines("0 1 2 3 4 5 6 7 8 ", 6)).toStrictEqual([
+        "0 1 2 ",
+        "3 4 5 ",
+        "6 7 8 ",
+      ]);
+    });
+    test("fills the last line with the remaining characters even if this means the line does not equal the given max length", () => {
+      expect(splitTextIntoLines("0 1 2 3 4 5 6 7", 6)).toStrictEqual([
+        "0 1 2 ",
+        "3 4 5 ",
+        "6 7",
+      ]);
+    });
+    test("does not cut a word in the middle should it take the current line over the maximum allowed length", () => {
+      expect(splitTextIntoLines("0 123", 4)).toStrictEqual(["0 ", "123"]);
+    });
     test.todo(
       "when a word exceeds the maximum allowed line length, splits it over the line with a '-'"
       //   () => {
