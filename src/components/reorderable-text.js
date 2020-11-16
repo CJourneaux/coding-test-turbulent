@@ -1,6 +1,7 @@
 import React from "react";
 import { List as ReactMovable, arrayMove } from "react-movable";
-import { Box } from "@chakra-ui/react";
+import { Stack, Tag, TagLabel, TagRightIcon } from "@chakra-ui/react";
+import { MdCloudDone, MdCloudUpload } from "react-icons/md";
 import PropTypes from "prop-types";
 
 import splitTextIntoLines from "../utils/split-text-into-lines";
@@ -10,10 +11,12 @@ import { ReorderableListItem } from "./reorderable-list-item";
 const ReorderableText = ({ text, maxLineLength = 80 }) => {
   const originalLines = splitTextIntoLines(text, maxLineLength);
   const isFirstRender = React.useRef(true);
+  const [isOrderSaved, setIsOrderSaved] = React.useState(true);
 
   const [lines, setLines] = React.useState(originalLines);
 
   const onReorder = ({ oldIndex, newIndex }) => {
+    setIsOrderSaved(false);
     console.log(`Moving item ${oldIndex} to ${newIndex}`);
     const reorderedLines = arrayMove(lines, oldIndex, newIndex);
     setLines(reorderedLines);
@@ -25,15 +28,16 @@ const ReorderableText = ({ text, maxLineLength = 80 }) => {
     } else {
       const timeout = setTimeout(() => {
         console.log("effect", lines);
+        setIsOrderSaved(true);
       }, 2000);
       return () => {
         clearTimeout(timeout);
       };
     }
-  }, [lines]);
+  }, [isFirstRender, lines, setIsOrderSaved]);
 
   return (
-    <Box>
+    <Stack spacing="1rem">
       <ReactMovable
         values={lines}
         onChange={onReorder}
@@ -42,7 +46,18 @@ const ReorderableText = ({ text, maxLineLength = 80 }) => {
         transitionDuration={500}
         lockVertically
       />
-    </Box>
+      {isOrderSaved ? (
+        <Tag size="md" color="green" alignSelf="flex-end">
+          <TagLabel>Saved</TagLabel>
+          <TagRightIcon as={MdCloudDone}></TagRightIcon>
+        </Tag>
+      ) : (
+        <Tag size="md" color="blue" alignSelf="flex-end">
+          <TagLabel>Saving</TagLabel>
+          <TagRightIcon as={MdCloudUpload}></TagRightIcon>
+        </Tag>
+      )}
+    </Stack>
   );
 };
 
