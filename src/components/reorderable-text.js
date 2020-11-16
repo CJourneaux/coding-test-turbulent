@@ -8,7 +8,9 @@ import splitTextIntoLines from "../utils/split-text-into-lines";
 import { ReorderableList } from "./reorderable-list";
 import { ReorderableListItem } from "./reorderable-list-item";
 
-const ReorderableText = ({ text, maxLineLength = 80 }) => {
+const UPLOAD_URL = "https://jsonplaceholder.typicode.com/posts";
+
+const ReorderableText = ({ text, maxLineLength = 80, saveDelay = 2000 }) => {
   const originalLines = splitTextIntoLines(text, maxLineLength);
   const isFirstRender = React.useRef(true);
   const [isOrderSaved, setIsOrderSaved] = React.useState(true);
@@ -16,25 +18,39 @@ const ReorderableText = ({ text, maxLineLength = 80 }) => {
   const [lines, setLines] = React.useState(originalLines);
 
   const onReorder = ({ oldIndex, newIndex }) => {
-    setIsOrderSaved(false);
-    console.log(`Moving item ${oldIndex} to ${newIndex}`);
     const reorderedLines = arrayMove(lines, oldIndex, newIndex);
     setLines(reorderedLines);
+    setIsOrderSaved(false);
+    console.log(`Moving element from position ${oldIndex} to ${newIndex}`);
   };
 
   React.useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
     } else {
-      const timeout = setTimeout(() => {
-        console.log("effect", lines);
-        setIsOrderSaved(true);
-      }, 2000);
+      const timeout = setTimeout(async () => {
+        console.log("Saving start");
+        fetch(UPLOAD_URL, {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(lines),
+        }).then((response) => {
+          if (response.ok) {
+            console.log("Saved list order");
+            setIsOrderSaved(true);
+          } else {
+            console.log("Error while saving list order", response);
+          }
+        });
+      }, saveDelay);
       return () => {
         clearTimeout(timeout);
       };
     }
-  }, [isFirstRender, lines, setIsOrderSaved]);
+  }, [isFirstRender, lines, saveDelay, setIsOrderSaved]);
 
   return (
     <Stack spacing="1rem">
@@ -47,13 +63,13 @@ const ReorderableText = ({ text, maxLineLength = 80 }) => {
         lockVertically
       />
       {isOrderSaved ? (
-        <Tag size="md" color="green" alignSelf="flex-end">
-          <TagLabel>Saved</TagLabel>
+        <Tag color="green" alignSelf="flex-end">
+          <TagLabel lineHeight="1.75">Saved</TagLabel>
           <TagRightIcon as={MdCloudDone}></TagRightIcon>
         </Tag>
       ) : (
-        <Tag size="md" color="blue" alignSelf="flex-end">
-          <TagLabel>Saving</TagLabel>
+        <Tag color="blue" alignSelf="flex-end">
+          <TagLabel lineHeight="1.75">Changed</TagLabel>
           <TagRightIcon as={MdCloudUpload}></TagRightIcon>
         </Tag>
       )}
@@ -63,8 +79,8 @@ const ReorderableText = ({ text, maxLineLength = 80 }) => {
 
 ReorderableText.propTypes = {
   text: PropTypes.string.isRequired,
-  maxLineLength: PropTypes.number.isRequired,
-  onReorder: PropTypes.func.isRequired,
+  maxLineLength: PropTypes.number,
+  saveDelay: PropTypes.number,
 };
 
 export { ReorderableText };
