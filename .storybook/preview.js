@@ -1,3 +1,4 @@
+import "@storybook/addon-console";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 
 export const decorators = [

@@ -1,0 +1,38 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
+import { ReorderableText } from "../components/reorderable-text";
+
+<Meta title="Main/Introduction" />
+
+# Turbulent | Frontend Developer Test
+
+This test requires you to build a React component for the following scenario.
+
+We want to display a string of characters which will be split into several lines. Each line can contain a maximum of 80 characters. No word should be broken by an end of line, so it should be moved to the next line.
+
+## Requirements
+
+- ✔️ Receives a string with a variable length as prop
+- ✔️ Displays each line of text in its own "div"
+- ✔️ No line must exceed 80 characters
+- ✔️ No word must be cut by an end of line
+- ✔️ Allows reordering the lines using drag and drop
+- ✔️ 2 seconds after reordering the elements (debounced), an API call is made with the new
+  order as POST body
+
+## Result
+
+### Controls
+
+- `tab` and `shift`+`tab`: Switches the focused item
+- `space`: Lifts the focused item or drops it at its current position
+- `J` or `arrow up`: Moves the lifted item up one position
+- `K` or `arrow down`: Moves the lifted item down one position
+- `escape`: Drops the item back to its initial position
+
+### Component `ReorderableText`
+
+<Canvas>
+  <Story name="ReorderableText">
+    <ReorderableText text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dictum felis eget viverra efficitur. Etiam in leo eu diam convallis interdum. Pellentesque rhoncus, tellus eget efficitur sodales, elit mauris vehicula mi, eget placerat ipsum ipsum egestas ex. Proin ultricies nisi enim, quis cursus magna egestas vel. Cras turpis magna, ultrices eu mi a, bibendum pharetra magna. Nam nibh magna, sagittis eu mauris quis, ornare aliquet augue. Cras commodo lectus ut luctus sagittis. Donec malesuada ultricies ex vitae convallis. Fusce dapibus vel mi vitae finibus. Praesent elit ipsum, feugiat eget turpis non, efficitur pellentesque arcu. Cras pretium porttitor ex ac suscipit." />
+  </Story>
+</Canvas>
