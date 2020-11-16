@@ -1,7 +1,15 @@
 import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
 import { ReorderableText } from "../components/reorderable-text";
 
-<Meta title="Main/Introduction" />
+<Meta
+  title="Main/Introduction"
+  component={ReorderableText}
+  argTypes={{
+    text: { control: "text" },
+    maxLineLength: { control: "number" },
+    saveDelay: { control: "number" },
+  }}
+/>
 
 # Turbulent | Frontend Developer Test
 
@@ -16,8 +24,7 @@ We want to display a string of characters which will be split into several lines
 - ✔️ No line must exceed 80 characters
 - ✔️ No word must be cut by an end of line
 - ✔️ Allows reordering the lines using drag and drop
-- ✔️ 2 seconds after reordering the elements (debounced), an API call is made with the new
-  order as POST body
+- ✔️ 2 seconds after reordering the elements (debounced), an API call is made with the new order as POST body
 
 ## Result
 
@@ -32,7 +39,15 @@ We want to display a string of characters which will be split into several lines
 ### Component `ReorderableText`
 
 <Canvas>
-  <Story name="ReorderableText">
-    <ReorderableText text="In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat; it was a hobbit-hole, and that means comfort. " />
+  <Story
+    name="Basic ReorderableText"
+    args={{
+      text:
+        "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat; it was a hobbit-hole, and that means comfort.",
+      maxLineLength: 80,
+      saveDelay: 5000,
+    }}
+  >
+    {(args) => <ReorderableText {...args} />}
   </Story>
 </Canvas>
